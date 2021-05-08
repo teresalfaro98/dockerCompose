@@ -22,7 +22,7 @@ services:
     container_name: 'chat-Angular'
     build:
       context: ~/src/chatAngular
-      dockerfile: Dockerfile
+      dockerfile: DockerFile
     restart: always
     environment:
       - VIRTUAL_HOST=www.teresalfaro.me
