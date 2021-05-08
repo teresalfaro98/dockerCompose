@@ -1,0 +1,46 @@
+version: '3.1'
+
+
+
+services:
+
+
+  reverse-proxy:
+    image: jwilder/nginx-proxy:alpine
+    container_name: 'Reverse-Proxy'
+    restart: always
+    ports:
+      - '80:80'
+    volumes:
+      - certs:/etc/nginx/certs:ro
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+
+  angular:
+    container_name: 'chat-Angular'
+    build:
+      context: ~/src/chatAngular
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - VIRTUAL_HOST=www.teresalfaro.me
+
+
+
+  node:
+    container_name: 'server-Node'
+    build:
+      context: ~/src/nodejs
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      - VIRTUAL_HOST=apinode.teresalfaro.me
+
+
+
+volumes:
+  certs:
+  html:
+  vhostd:
